@@ -1,0 +1,5 @@
+.wrapperAL{ box-sizing: border-box; overflow: hidden; margin: 0;}
+.wrapperAL ul{ margin: 0; padding: 0; }
+.wrapperAL .actionType{  font-size: 24px; line-height: 40px; color: #000000; font-weight: 700; margin: 12px 0 0 0; padding: 0; letter-spacing: 0;}
+.wrapperAL .action{ font-size: 24px; line-height: 40px; color: #000000; font-weight: 400; margin: 0; padding: 0 0 0 40px; letter-spacing: 0; list-style-type: none; cursor: pointer;}
+.wrapperAL .active{ background-color: #A9C4CC; }

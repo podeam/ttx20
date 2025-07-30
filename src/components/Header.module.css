@@ -1,0 +1,72 @@
+.header {
+  color: #004494;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: 40px 100px;
+  width: 1800px;
+  max-width: 100%;
+  min-height: 122px;
+  padding: 17px 0 17px 20px;
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.nameBlock {
+  width: 533px;
+  min-width: 240px;
+}
+
+.gameName {
+  font-size: 56px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.gamePayoff {
+  font-size: 20px;
+  font-weight: 300;
+  margin: 0;
+}
+
+.gameRound {
+  text-align: right;
+  font-size: 48px;
+  font-weight: 300;
+}
+
+.roundNumber {
+  font-weight: 500;
+  font-size: 40px;
+}
+
+.roundSuffix {
+  font-weight: 500;
+  font-size: 32px;
+}
+
+.roundType {
+  font-weight: 500;
+  font-size: 40px;
+  color: rgba(0, 68, 148, 1);
+}
+
+@media (width <= 991px) {
+  .nameBlock {
+    max-width: 100%;
+  }
+
+  .gameName {
+    max-width: 100%;
+    font-size: 40px;
+  }
+
+  .gamePayoff {
+    max-width: 100%;
+  }
+
+  .gameRound {
+    font-size: 40px;
+  }
+}

@@ -1,0 +1,105 @@
+.attackcontent {
+  margin-top: 64px;
+}
+
+.attackcontent2 {
+  display: flex;
+  gap: 7px;
+}
+ 
+.actionlist {
+  flex: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+ 
+.actionitem {
+  border-radius: 10px;
+  background-color: rgba(169, 196, 204, 0.4);
+  padding: 15px 17px;
+  margin-bottom: 20px;
+}
+ 
+.actiondetails {
+  display: flex;
+  min-height: 113px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+}
+ 
+.actioninfo {
+  flex: 1;
+}
+ 
+.actiontitle {
+  font-size: 24px;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-weight: 500;
+  margin: 0;
+}
+ 
+.actionlocation {
+  font-size: 16px;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-weight: 300;
+  margin: 5px 0 0;
+}
+ 
+.actioncredits {
+  color: var(--primary-color);
+  font-size: 20px;
+  font-family: Inter, -apple-system, Roboto, Helvetica, sans-serif;
+  font-weight: 500;
+  margin: 20px 0 0;
+}
+ 
+.deleteaction {
+
+  background-color: transparent;
+  border: 0;
+  /*width: 47px;*/
+  /*height: 47px;*/
+  position: absolute;
+  top: 33px;
+  right: 0;
+  cursor: pointer;
+}
+ 
+.confirmDelete {
+  width: 100%;
+  height: 126px;
+  border-radius: 10px;
+  background-color: #A9C4CC;
+  padding: 15px 17px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.buttonCancel,
+.buttonAdd {
+  padding: 11px 20px;
+  border-radius: 20px;
+  font-size: 24px;
+  font-weight: 500;
+  cursor: pointer;
+  position: absolute;
+  top: 35px;
+}
+ 
+.buttonCancel {
+  background-color: var(--white);
+  border: 2px solid var(--gray-color);
+  color: var(--black);
+  left: 20px;
+}
+ 
+.buttonAdd {
+  background-color: var(--white);
+  border: 2px solid var(--accent-color);
+  color: var(--accent-color);
+  right: 20px;
+}

@@ -1,0 +1,28 @@
+.wrapperDM{ box-sizing: border-box; overflow: hidden; display: flex; margin: 14px 0;}
+.wrapperDM .title{ font-size: 32px; line-height: 100%; color: #000000; margin: 0; padding: 0; letter-spacing: 0;}
+.wrapperDM .box{ 
+    width: 80px; 
+    height: 27px; 
+    border: 2px solid #A9C4CC;
+    font-size: 14px; 
+    font-weight: 500;
+    line-height: 23px;
+    background-color: #FFFFFF; 
+    margin: 0; 
+    padding: 0; 
+    letter-spacing: 0; 
+    cursor: pointer; 
+    border-radius: 100px; 
+    text-align: center; 
+    box-sizing: border-box;
+}
+.wrapperDM .box.active{ 
+    color: #000000; 
+    background-color: #A9C4CC; 
+}
+.wrapperDM .space{ 
+    width: 15px; 
+    height: 0; 
+    border: 1px solid #A9C4CC; 
+    margin-top: 13px; 
+}

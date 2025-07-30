@@ -1,0 +1,9 @@
+{
+  "nc_file": "import/network_1_A.nc",
+  "turn": "A",
+  "turn_n": 1,
+  "actions_attack": [],
+  "actions_defence": [],
+  "credit_attack": 1000,
+  "credit_defence": 1000
+}

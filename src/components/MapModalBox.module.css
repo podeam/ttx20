@@ -1,0 +1,32 @@
+.wrapperNL{ 
+    width: 678px; 
+    height: 368px; 
+    border-radius: 10px; 
+    background-color: rgba(235, 242, 244, 1); 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 18px 24px 28px 24px;
+    position: absolute; 
+    top: 30px; 
+    left: 40px; 
+}
+.wrapperNL .title{ 
+    font-size: 18px; 
+    font-weight: 700;
+    line-height: 100%; 
+    color: #000000; 
+    margin: 0; 
+    padding: 0; 
+    letter-spacing: 0;
+    margin-top: 8px;
+ }
+.wrapperNL .close{ cursor: pointer; text-decoration: none; position: absolute; top: 20px; right: 20px;}
+.wrapperNL .buttonAdd{ width: 24px; height: 24px; border: 2px solid #A9C4CC; border-radius: 12px; text-align: center; font-size: 20px; line-height: 24px; cursor: pointer; margin-top: 0px; }
+.rowcontainer{ display: flex; justify-content: space-between; color: #000000; padding: 8px 0; font-size: 24px; font-weight: 500; margin-top: 24px; }
+.rowbodycontainer{ display: flex; justify-content: space-between; color: #000000; padding: 8px; font-size: 20px; font-weight: 400;background-color:#0BB6E0; border-radius: 10px; padding: 8px; margin-top: 12px; cursor: pointer; }
+.rowbodycontainer.gray{ background-color: rgba(149, 131, 130, 0.3); }
+.rowbodycontainer.active{ background-color:#FF7758; }
+.active { font-weight: 700; }
+table{ width: 100%; margin-top: 24px; }
+.alignright{ text-align: right; }
+table thead td{ font-size: 24px; font-weight: 500; }

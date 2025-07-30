@@ -1,0 +1,4 @@
+.wrapperCountries{ width: 280px; height: 233px; border-radius: 10px; padding: 18px 24px; background-color: #FFFFFF; box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25); box-sizing: border-box; }
+.wrapperCountries .title{ font-size: 18px; line-height: 100%; color: #000000; margin: 0 0 40px 0; padding: 0; letter-spacing: 0;}
+.wrapperCountries .country{ width: 173px; height: 41px; border-radius: 20px; border: 2px solid #000000; padding: 13px auto; font-size: 28px; line-height: 100%; color: #000000; letter-spacing: 0; background-color: #FFFFFF; margin-bottom: 8px; cursor: pointer;}
+.wrapperCountries .active{ background-color: #e6e18f;}

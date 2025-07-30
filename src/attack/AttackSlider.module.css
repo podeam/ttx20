@@ -1,0 +1,3 @@
+.wrapperAS{ box-sizing: border-box; overflow: hidden; margin-top: 30px; width: 100%;}
+.wrapperAS .title{ font-size: 32px; line-height: 100%; color: #000000; margin: 0; padding: 0; letter-spacing: 0;}
+.wrapperAS input[type="range"]{ width: 100%; }

@@ -1,0 +1,5 @@
+.legend{width: 400px; height: 37px; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 65px; left: 20px; color: #DDB0AD; font-weight: 700; font-size: 12px; line-height: 30px; border-radius: 10px;  display: flex; padding: 4px 10px;  }
+.legend .box{ width: 20px; height: 4px; margin: 13px 15px 13px 25px;}
+.legend #box1{ background-color: rgba(250, 87, 87, 1);}
+.legend #box2{ background-color: rgba(243, 200, 107, 1);}
+.legend #box3{ background-color: rgba(181, 216, 57, 1);}

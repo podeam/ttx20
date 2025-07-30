@@ -1,0 +1,6 @@
+.wrapperAL{ box-sizing: border-box; overflow: hidden; margin: 0;}
+.wrapperData{ display: flex; margin-top: 66px; }
+.wrapperData2{ width: 50%; }
+.title{ font-size: 24px; font-weight: 500; color: #FF6F59; margin: 0; padding: 0; letter-spacing: 0;}
+.text{ font-size: 24px; color: #000000; margin: 0; padding: 0; letter-spacing: 0;}
+.wrapperData2 p{ margin-bottom: 30px; }

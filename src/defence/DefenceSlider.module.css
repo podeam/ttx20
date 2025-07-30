@@ -1,0 +1,90 @@
+.wrapperDS{ box-sizing: border-box; overflow: hidden; margin-top: 48px; width: 100%;}
+.wrapperDS .title{  font-size: 32px; line-height: 100%; color: #000000; margin: 0; padding: 0; letter-spacing: 0;}
+
+.wrapperDS p.percentage{ font-family: Inter; font-weight: 700; font-size: 48px; line-height: 100%; letter-spacing: 0; color:#FF7758; text-align: center;}
+.wrapperDS p { font-family: Inter; font-weight: 400; font-size: 24px; line-height: 100%; letter-spacing: 0%; margin: 30px 0;}
+.wrapperDS .optional{ border-bottom: 1px dashed #CCCCCC; font-family: Inter; font-weight: 400; font-style: italic; font-size: 18px; line-height: 100%; letter-spacing: 0%; padding: 10px 0; margin-top: 30px; }
+.wrapperDS .cost{font-family: Inter; font-weight: 500; font-size: 24px; line-height: 100%; letter-spacing: 0; color:#004494; text-align: center;}
+
+.wrapperDS input[type="range"]{ width: 100%; }
+input[type="range"] {
+  width: 100%;
+  height: 12px;
+  background: transparent; /* We'll style the track instead */
+  margin: 10px 0;
+}
+/* WebKit - Chrome, Safari */
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 12px;
+  background: url('/images/0marksSlider.png') no-repeat center;
+  background-size: cover;
+  border-radius: 6px;
+}
+/* WebKit - slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 38px;
+  width: 23px;
+  background: url('/images/sliderMarker.png') no-repeat center center;
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+  margin-top: -10px; /* Adjust to align with track */
+}
+/* Firefox */
+input[type="range"]::-moz-range-track {
+  height: 12px;
+  background: url('/images/sliderBackground.svg') no-repeat center;
+  background-size: cover;
+  border-radius: 6px;
+}
+/* Firefox */
+input[type="range"]::-moz-range-thumb {
+  height: 30px;
+  width: 21px;
+  background: url('/images/sliderCursor.svg') no-repeat center center;
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+}
+.wrapperDAS{
+    width: 587px; 
+    height: 754px; 
+    border-radius: 10px; 
+    padding: 18px 24px; 
+    background-color: rgba(255, 255, 255, 1); 
+    box-shadow: 0 4px 4px 0 #00000040; box-sizing: border-box; 
+    overflow: hidden;
+}
+.wrapperDAS .title{ color: #000;
+font-family: Inter;
+font-size: 32px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;}
+.wrapperDAS .wrapperButton{ display: flex; justify-content: space-between; position: absolute; bottom: 29px; width: 542px; 
+    /*
+display: flex;
+padding: 11px 20px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+flex: 1 0 0;
+*/
+}
+.wrapperDAS .wrapperButton .buttonCancel{ width: 131px; height: 50px; border: 2px solid #A9C4CC; border-radius: 20px; font-size: 24px; line-height: 100%; color: #000000; letter-spacing: 0; cursor: pointer; }
+.buttonAdd{ 
+    width: 279px; 
+    height: 50px; 
+    border: 2px solid #A9C4CC; 
+    background-color: #A9C4CC; 
+    border-radius: 20px; 
+    font-size: 24px; 
+    line-height: 100%; 
+    color: #000000; 
+    letter-spacing: 0; 
+    cursor: pointer; 
+}
+.buttonAdd:disabled{ opacity: 0.2; cursor: default; }
+.sliderTitle{ padding: 12px 0; border-bottom:2px solid #000; font-family: Inter; font-weight: 400; font-size: 24px;  }
+.details{ padding: 12px 0; border-bottom:1px solid #000; font-family: Inter; font-weight: 700; font-size: 18px;  }

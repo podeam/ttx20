@@ -1,0 +1,9 @@
+.wrapperEP{ width: 280px; height: 233px; border-radius: 10px; padding: 18px 24px; background-color: #004494; box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25); box-sizing: border-box; }
+.wrapperEP .title{ font-size: 18px; line-height: 100%; color: #FFFFFF; margin: 0; padding: 0; letter-spacing: 0;}
+.wrapperEP .subtitle{ font-size: 18px; line-height: 100%; color: #FFFFFF; margin: 0; padding: 0; letter-spacing: 0;}
+.wrapperEP .label1{ font-size: 24px; line-height: 100%; color: #FFFFFF; margin: 0; padding: 0; letter-spacing: 0;}
+.wrapperEP .value{ font-size: 24px; line-height: 100%; color: #FFFFFF; margin: 0; padding: 0; letter-spacing: 0;}
+.wrapperEP .label2{ font-size: 16px; line-height: 100%; color: #FFFFFF; margin: 0; padding: 0; letter-spacing: 0;}
+.wrapperEP .value3{ font-size: 48px; /*64px*/ line-height: 100%; color: #FFFFFF; margin: 0; padding: 0; letter-spacing: 0;}
+.wrapperEP .label3{ font-size: 24px; line-height: 100%; color: #FFFFFF; margin: 0; padding: 0; letter-spacing: 0;}
+.wrapperEP .box{ margin-top: 20px; }

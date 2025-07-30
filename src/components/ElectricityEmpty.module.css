@@ -1,0 +1,5 @@
+.wrapperEE{ width: 890px; height: 233px; border-radius: 10px; padding: 18px 24px; background-color: rgba(255, 255, 255, 0.36); box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25); box-sizing: border-box; }
+.wrapperEE .title{ font-size: 18px; line-height: 100%; color: #000000; margin: 0; padding: 0; letter-spacing: 0;}
+.wrapperEE .parent { display: flex; align-items: center; justify-content: center; height: 196px; }
+.wrapperEE .subtitle{ font-size: 24px; line-height: 100%; color: #000000; margin: 0; padding: 0; letter-spacing: 0; text-align: center;}
+

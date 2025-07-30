@@ -1,0 +1,49 @@
+.wrapperNL{ 
+    width: 550px; 
+    height: 588px; 
+    border-radius: 10px; 
+    background-color: rgba(255, 255, 255, 1); 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 18px 24px 28px 24px;
+    position: absolute; 
+    top: 30px; 
+    left: 170px; 
+}
+.wrapperNL .title{ 
+    font-size: 18px; 
+    font-weight: 700;
+    line-height: 100%; 
+    color: #000000; 
+    margin: 0; 
+    padding: 0; 
+    letter-spacing: 0;
+    margin-top: 8px;
+ }
+ .wrapperNL .title2{ 
+    font-size: 24px; 
+    font-weight: 500;
+ }
+  .wrapperNL .textrow{ 
+    font-size: 16px; 
+    font-weight: 400;
+ }
+  .wrapperNL .title3, .wrapperNL .title4, .wrapperNL .title5{ 
+    font-size: 20px; 
+    font-weight: 700;
+ }
+ .wrapperNL .title4 { color: #FF6f59}
+ .wrapperNL .title5 { color: #EB5455}
+
+.wrapperNL .close{ cursor: pointer; text-decoration: none; position: absolute; top: 20px; right: 20px;}
+
+.rowcontainer{ display: flex; justify-content: space-between; color: #000000; padding: 8px 0; font-size: 24px; font-weight: 500; margin-top: 24px; border-bottom: 2px solid #000; }
+.rowbodycontainer{ display: flex; justify-content: space-between; color: #000000; padding: 4px; font-size: 20px; font-weight: 400;  padding: 8px 0; margin-top: 2px;  }
+.rowcontainer2{ display: flex; justify-content: space-between; color: #000000; padding: 4px; font-size: 20px; font-weight: 400;  padding: 8px 0; margin-top: 2px; border-top: 2px solid #000;   }
+.rowcontainer3{ display: flex; justify-content: space-between; color: #000000; padding: 8px 0; font-size: 24px; font-weight: 500;  border-bottom: 2px solid #000; }
+.rowcontainer4{ display: flex; justify-content: space-between; color: #000000; padding: 8px 0; font-size: 24px; font-weight: 500;   }
+.rowbodycontainer.active{ background-color:#FF7758; }
+.active { font-weight: 700; }
+table{ width: 100%; margin-top: 24px; }
+.alignright{ text-align: right; }
+table thead td{ font-size: 24px; font-weight: 500; }

@@ -1,0 +1,63 @@
+
+.timerwidget {
+    display: flex;
+    width: 283px;
+    height: 234px;
+    padding: 18px 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 36px;
+    flex-shrink: 0;
+    align-self: start;
+    border-radius: 10px;
+    background: #FF6F59;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+}
+
+.widgettitle {
+    color: #FFF;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.timerdisplay {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.timerlabel {
+    color: #FFF;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.timervalue {
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    color: #FFF;
+    margin: 0;
+    padding: 0;
+}
+
+.timeunit {
+    font-family: Inter;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}

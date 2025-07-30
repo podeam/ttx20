@@ -1,0 +1,32 @@
+.mapnavigation {
+  border-radius: 10px 10px 0 0;
+  background-color: var(--gray-color);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 82px 59px 18px;
+}
+ 
+.maptabs {
+  display: flex;
+  padding: 0 25px;
+  margin: 0;
+  list-style: none;
+  gap: 40px;
+  font-size: 20px;
+}
+ 
+.maptab {
+  cursor: pointer;
+}
+ 
+.active {
+  color: var(--white);
+  font-weight: 700;
+}
+ 
+.mapdisplay {
+  border-radius: 0 0 10px 10px;
+  background-color: var(--black);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  height: 636px;
+  margin-top: -10px;
+}

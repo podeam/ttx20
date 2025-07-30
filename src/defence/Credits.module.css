@@ -1,0 +1,49 @@
+.creditssection {
+  border-radius: 10px;
+  background-color: var(--white);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-top: 29px;
+  height: 497px;
+  padding: 18px 24px;
+  color: var(--accent-color);
+  font-weight: 500;
+  box-sizing: border-box;
+}
+ 
+.creditsheading {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.creditsdisplay > div {
+  margin-top: 23px;
+}
+
+.creditslabel {
+  font-size: 20px;
+  margin: 0;
+}
+ 
+.creditsvalue {
+  font-size: 64px;
+  margin: 0;
+}
+ 
+.creditsneeded {
+  color: var(--primary-color);
+}
+ 
+.creditsafter {
+  color: var(--gray-color);
+}
+ 
+.creditscurrent{
+display: flex;
+height: 164px;
+flex-direction: column;
+justify-content: flex-end;
+align-items: flex-start;
+flex-shrink: 0;
+align-self: stretch;
+}

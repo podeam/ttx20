@@ -1,0 +1,14 @@
+[
+    {"type": "Prevention", "typeId": "A", "data": [
+        {"id": 1, "title": "Add protections + surveillance", "tag":"protect", "map": "N", "map_name": "nodes", "text": "Text 1A", "credits": [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]}
+        ]},
+    {"type": "Mitigation", "typeId": "B", "data": [
+        {"id": 2, "title": "Enable backup", "tag":"enable", "map": "DEBG", "map_name": "nodes", "text": "Text 1B", "credits": [110, 210, 310, 410, 510, 610, 710, 810, 910, 1010]},
+        {"id": 3, "title": "Increase line capacity", "tag":"", "map": "DEL", "map_name": "lines", "text": "Text 1C", "credits": [120, 220, 320, 420, 520, 620, 720, 820, 920, 1020]},
+        {"id": 4, "title": "Limit users' demand", "tag":"limit-demand", "map": "C", "map_name": "country", "text": "Text 1D", "credits": [130, 230, 330, 430, 530, 630, 730, 830, 930, 1030]}
+        ]},
+    {"type": "Long term strategy", "typeId": "C", "data": [
+        {"id": 5, "title": "Build a new power plant", "tag":"build-gen", "map": "DENPP", "map_name": "country", "text": "Text 1E", "credits": [140, 240, 340, 440, 540, 640, 740, 840, 940, 1040]},
+        {"id": 6, "title": "Increase interconnector capacity", "tag":"increse-link", "map": "DELK", "map_name": "links", "text": "Text 1F", "credits": [150, 250, 350, 450, 550, 650, 750, 850, 950, 1050]}
+        ]}
+]

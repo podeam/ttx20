@@ -1,0 +1,2 @@
+#network_path = "import/case2_SE_LT_AND_PL_LT_red_red_1024_solved.nc"
+network_path = "network_adapted_capacities_loads_dsr_2024_gas33_coal15_Ep60_12m_256_no_TYNDP_7feb_solved.nc"

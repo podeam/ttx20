@@ -1,0 +1,58 @@
+[
+    {
+        "countries": [
+            "DE",
+            "PL"
+        ],
+        "flow_from_to": 2489532.277718913,
+        "flow_to_from": -2489532.277718913
+    },
+    {
+        "countries": [
+            "DE",
+            "DK"
+        ],
+        "flow_from_to": -770822.5350651557,
+        "flow_to_from": 770822.5350651557
+    },
+    {
+        "countries": [
+            "DK",
+            "SE"
+        ],
+        "flow_from_to": -649542.187699156,
+        "flow_to_from": 649542.187699156
+    },
+    {
+        "countries": [
+            "EE",
+            "LV"
+        ],
+        "flow_from_to": 658186.9256442629,
+        "flow_to_from": -658186.9256442629
+    },
+    {
+        "countries": [
+            "FI",
+            "SE"
+        ],
+        "flow_from_to": -1200474.04617204,
+        "flow_to_from": 1200474.04617204
+    },
+    {
+        "countries": [
+            "LT",
+            "LV"
+        ],
+        "flow_from_to": -624481.2916777208,
+        "flow_to_from": 624481.2916777208
+    },
+    {
+        "countries": [
+            "NO",
+            "SE"
+        ],
+        "flow_from_to": 1579895.7864385147,
+        "flow_to_from": -1579895.7864385147
+    }
+]

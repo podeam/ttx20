@@ -1,0 +1,316 @@
+
+
+
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>ArcGIS Maps SDK for JavaScript</title>
+  <style>
+    html,
+    body, #myMap {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #singleGeneratorLoad{
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 500px;
+        height: 800px;
+        background-color: white;
+        display: none;
+        z-index: 10;
+    }
+  </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+ <!-- Load Calcite components from CDN -->
+ <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/2.13.2/calcite.css" />
+ <script type="module" src="https://js.arcgis.com/calcite-components/2.13.2/calcite.esm.js"></script>
+ <!-- Load the ArcGIS Maps SDK for JavaScript from CDN -->
+ <link rel="stylesheet" href="https://js.arcgis.com/4.31/esri/themes/light/main.css" />
+ <script src="https://js.arcgis.com/4.31/"></script>
+ <!-- Load Map components from CDN-->
+ <script
+   type="module"
+   src="https://js.arcgis.com/map-components/4.31/arcgis-map-components.esm.js"
+ ></script>
+</head>
+<body>
+<!--
+    <arcgis-map item-id="237b9584339446a0b56317b5962a4971" center="15, 55" zoom="4">
+        <arcgis-zoom position="top-left"></arcgis-zoom>
+    </arcgis-map>
+-->
+    <div id="singleGeneratorLoad"></div>
+    <div id="myMap"></div>
+<script>
+/*
+const arcgisMap = document.querySelector("arcgis-map");
+require(["esri/Graphic", "esri/layers/GraphicsLayer"], (Graphic, GraphicsLayer) => {
+    arcgisMap.addEventListener("arcgisViewReadyChange", () => {
+
+    });
+});
+*/
+let arrayTable = [];
+let map, view;
+require([
+  "esri/Map",
+  "esri/views/MapView",
+  "esri/layers/GraphicsLayer",
+  "esri/Graphic"
+], function(Map, MapView, GraphicsLayer, Graphic) {
+  
+    // Create a map and view
+    map = new Map({
+        basemap: "streets-vector"
+        });
+
+    view = new MapView({
+        container: "myMap",
+        map: map,
+        center: [15, 55], // Longitude, latitude
+        zoom: 4
+    });
+});
+
+function addBusToMap(long, lat, name, description){
+    require(["esri/Graphic", "esri/layers/GraphicsLayer", "esri/core/reactiveUtils"], (Graphic, GraphicsLayer, reactiveUtils) => {
+    const graphicsLayer = new GraphicsLayer();
+    map.add(graphicsLayer);
+    const point = {
+        //Create a point
+        type: "point",
+        longitude: long,
+        latitude: lat
+        };
+    const simpleMarkerSymbol = {
+        type: "simple-marker",
+        color: [226, 119, 40], // Orange
+        outline: {
+            color: [255, 255, 255], // White
+            width: 2
+        }
+    };
+    const singleBus = {
+        title: name,
+        id: name
+    };
+    const popupTemplate = {
+        title: name,
+        content: '', //getSingleBus(name)
+        actions: [singleBus]
+        };
+    const attributes = {
+        Name: "",
+        Description: ""
+        };
+    const pointGraphic = new Graphic({
+        geometry: point,
+        symbol: simpleMarkerSymbol,
+        attributes: attributes,
+        popupTemplate: popupTemplate
+        });
+    graphicsLayer.add(pointGraphic);
+    /*
+    reactiveUtils.when(() => view.popup.visible, () => {
+        console.log(name)
+        }
+        )
+    reactiveUtils.watch(
+        () => view.map.allLayers.map( layer => layer.id),
+        (ids) => {
+            console.log(`FeatureLayer IDs ${ids}`);
+            console.log(name)
+        });
+    */
+    reactiveUtils.on(
+        () => view.popup,
+        "trigger-action",
+        (event) => {  // Execute the measureThis() function if the measure-this action is clicked
+            if (event.action.id === name) {
+                str = getSingleBus(name);
+                console.log(str);
+                console.log(event);
+                view.popup.content = str;
+            }
+        });
+
+    });
+}
+function addLineToMap(pointA, pointB, color, name, description){
+    require(["esri/Graphic", "esri/layers/GraphicsLayer"], (Graphic, GraphicsLayer) => {
+        const graphicsLayer = new GraphicsLayer();
+        map.add(graphicsLayer);
+        // Create a line geometry
+        // console.log(color);
+        const polyline = {
+            type: "polyline",
+            paths: [pointA, pointB]
+            };
+        const simpleLineSymbol = {
+            type: "simple-line",
+            color: color,
+            width: 2
+            };
+        const popupTemplate = {
+            title: name,
+            content: description
+            };
+        const attributes = {
+            Name: "",
+            Description: ""
+            };
+        const polylineGraphic = new Graphic({
+            geometry: polyline,
+            symbol: simpleLineSymbol,
+            attributes: attributes,
+            popupTemplate: popupTemplate
+            });
+        graphicsLayer.add(polylineGraphic);
+        });
+    }
+getGenerators();
+function getGenerators(){
+    $.ajax({
+        url: "/generators_in_country",
+        type: "GET",
+        dataType: "json",
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+            } else {
+                const buses = JSON.parse(response.data[0]);
+                //console.log(buses);
+                const generators = JSON.parse(response.data[1]);
+                //console.log(generators);
+                const jsonObject = buses.x;
+                const jsonObjecty = buses.y;
+                let x = 0;
+                Object.keys(jsonObject).forEach(key => {
+                    if(generators[x][0] == key){
+                        //*******************************************
+                        strHtml = '<table id="t' + x + '"><tr><td>Carrier</td><td>P Nom</td></tr>';
+                        list = generators[x][1];
+                        list.forEach(el => {
+                            if(el.carrier != ""){
+                                strHtml += `<tr><td data-id="${key} ${el.carrier}"><a href="#" class="single-gen">${el.carrier}</a></td><td>${Math.round(el.p_nom)}</td></tr>`;
+                            }
+                        });
+                        strHtml += '</table>';
+                        arrayTable.push(strHtml);
+                        //*******************************************
+                        addBusToMap(jsonObject[key], jsonObjecty[key], key, '');
+                        x++;
+                        }
+                    else{
+                        // console.log(0);
+                        }
+                    });
+                getLines();
+            }
+
+        },
+        error: function(error) {
+            console.log("An error occurred: " + error.responseJSON);
+            for (const key in error) {
+                if (error.hasOwnProperty(key)) {
+                    console.log(`${key}: ${error[key]}`);
+                    }
+                }
+            }
+    });
+}
+function getLines(){
+    $.ajax({
+        url: "/lines_in_country",
+        type: "GET",
+        dataType: "json",
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+            } else {
+                const buses = JSON.parse(response.data[0]);
+                //console.log(buses);
+                sessionStorage.setItem("lines", response.data[1]);
+                const lines = JSON.parse(response.data[1]);
+                //console.log(lines);
+                drawLines(lines, 'average');
+
+            //getLoads();
+            }
+        },
+        error: function(error) {
+            alert("An error occurred: " + error.responseJSON);
+        }
+    });
+}
+function drawLines(lines, type){
+    lines.forEach(item => {
+        //console.log(item);
+        bus0 = item.bus0_coordinates;
+        bus1 = item.bus1_coordinates;
+        pointA = [bus0.x, bus0.y];
+        pointB = [bus1.x, bus1.y];
+        //coordinates = [pointA, pointB];
+        //console.log(pointA);
+        //console.log(pointB);
+        color =  [226, 119, 40]; // Orange
+        if(type == 'peak') {
+            if(item.peak_utilization > 0.70){
+                color = 'red';
+            }
+        }
+        if(type == 'average') {
+            if (item.average_utilization > 0.50){
+                color = 'red';
+            }
+        }
+
+        l = Math.round(item.length);
+        c = Math.round(item.capacity);
+        a = (Math.round(item.average_utilization * 100));
+        p = (Math.round(item.peak_utilization * 100));
+        const name = `<b>${item.bus0} - ${item.bus1}</b>`;
+        const description = `<b>Length: ${l} Km.</b><br><b>Capacity: ${c} MW.</b><br><b>Average: ${a}%</b><br><b>Peak: ${p}%</b><br>`;
+        addLineToMap(pointA, pointB, color, name, description);
+    });
+}
+function getSingleBus(busId){
+    console.log(busId);
+    const data = 'bus_name=' + busId;
+    $.ajax({
+        url: "/single_bus_load",
+        data: data,
+        async: false,
+        type: "POST",
+        dataType: "json",
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+            } else {
+                let data = JSON.parse(response.data);
+                data = data[busId];
+                let strHtml = '<table class="table" id="singleGeneratorLoadTable"></tr>';
+                for (const [key, value] of Object.entries(data)) {
+                //$.each(data, function(key, values){
+                    values = Math.round(value);
+                    strHtml += `<tr><td>${key}</td><td>${values}</td></tr>`
+                //});
+                }
+                strHtml += '</table>';
+                //return strHtml;
+                $('#singleGeneratorLoad').html(strHtml).show();
+                //createLineChart('singleGeneratorLoadTable', 'singleGeneratorLoad');
+                //getSingleBusLinks(bus_name);
+            }
+        }
+    });
+    //return '<b>Ok</b>';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,814 @@
+<html></html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>ArcGIS Maps SDK for JavaScript</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+    html,
+    body, .container-fluid, .row, #myMap {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #singleGeneratorWrapper{
+        /*
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 10;
+        */
+        width: 100%;
+        height: 500px;
+        background-color: white;
+        display: none;
+    }
+    #singleGeneratorWrapperData{display: none;}
+  </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="static/js/myfunctions.js"></script>
+    <!-- Load Calcite components from CDN -->
+    <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/2.13.2/calcite.css" />
+    <script type="module" src="https://js.arcgis.com/calcite-components/2.13.2/calcite.esm.js"></script>
+    <!-- Load the ArcGIS Maps SDK for JavaScript from CDN -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.31/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.31/"></script>
+    <!-- Load Map components from CDN-->
+    <script type="module" src="https://js.arcgis.com/map-components/4.31/arcgis-map-components.esm.js" ></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-9">
+                <div id="myMap"></div>
+            </div>
+            <div class="col-3">
+                <div id="singleGeneratorWrapper">
+                    <div id="singleGeneratorData"></div>
+                    <div id="singleGenerator"></div>
+                    <div id="balance"></div>
+                    <div id="generation_x_carrier"></div>
+                </div>
+                <br><br><br>
+                <br><br><br>
+                <!--*********************************************-->
+                <div id="countryCarrier"></div>
+                <div id="singleGeneratorLoad"></div>
+                <div id="singleBusLinks"><table class="table singleBusLinks"></table></div>
+            </div>
+        </div>
+    </div>
+<script>
+let arrayTable = [];
+let map, view, graphicsLayer;
+require([
+  "esri/Map",
+  "esri/views/MapView",
+  "esri/layers/GraphicsLayer",
+  "esri/Graphic", 
+  "esri/core/reactiveUtils"
+], function(Map, MapView, GraphicsLayer, Graphic, reactiveUtils) {
+    map = new Map({
+        basemap: "streets-vector"
+        });
+
+    view = new MapView({
+        container: "myMap",
+        map: map,
+        center: [15, 55], // Longitude, latitude
+        zoom: 4
+    });
+    graphicsLayer = new GraphicsLayer();
+    map.add(graphicsLayer);
+    reactiveUtils.when(
+          () => view.popup?.visible,
+          () => {
+            reactiveUtils.whenOnce(() => !view.popup.visible).then(() => {
+                console.log("Popup closed after opened");
+                $('#singleGeneratorWrapper').hide();
+                }
+            );
+          }
+        );
+    });
+
+function addBusToMap(long, lat, name, description){
+    require(["esri/Graphic", "esri/layers/GraphicsLayer", "esri/core/reactiveUtils"], (Graphic, GraphicsLayer, reactiveUtils) => {
+    const point = {
+        //Create a point
+        type: "point",
+        longitude: long,
+        latitude: lat
+        };
+    const simpleMarkerSymbol = {
+        type: "simple-marker",
+        color: [226, 119, 40], // Orange
+        outline: {
+            color: [255, 255, 255], // White
+            width: 1
+        }
+    };
+    const singleBus = {
+        title: name,
+        id: name
+    };
+    const popupTemplate = {
+        title: name,
+        content: '',
+        actions: [singleBus]
+        };
+    const pointGraphic = new Graphic({
+        geometry: point,
+        symbol: simpleMarkerSymbol,
+        popupTemplate: popupTemplate,
+        });
+    graphicsLayer.add(pointGraphic);
+    reactiveUtils
+        .on(
+            () => view.popup,
+            "trigger-action",
+            (event) => {
+                if (event.action.id === name) {
+                    str = getSingleBus(name);
+                }
+            });
+        })
+    }
+function addLineToMap(pointA, pointB, color, name, name2, description){
+    require(["esri/Graphic", "esri/layers/GraphicsLayer", "esri/core/reactiveUtils", "esri/symbols/CIMSymbol"], (Graphic, GraphicsLayer, reactiveUtils, CIMSymbol) => {
+        const graphicsLayer = new GraphicsLayer();
+        map.add(graphicsLayer);
+        // Create a line geometry
+        const polyline = {
+            type: "polyline",
+            paths: [pointA, pointB]
+            };
+        // Step 4: Define the SimpleLineSymbol with arrow marker
+        const lineSymbol = {
+            type: "simple-line", // Symbol type
+            color: color,       // Line color
+            width: 2,            // Line width
+            marker: {
+                type: "line-marker",  // Must be "line-marker" for autocasting
+                placement: "end",  // Arrow placement: "start", "end", "center", or "both"
+                size: 10           // Arrow size
+            }
+        };
+        //****************************************************************************************************************************
+        const singleLine = {
+            title: 'Attack',
+            id: name2
+        };
+        const popupTemplate = {
+            title: name,
+            content: description,
+            actions: [singleLine]
+            };
+        const polylineGraphic = new Graphic({
+            geometry: polyline,
+            symbol: lineSymbol,
+            popupTemplate: popupTemplate
+            });
+        graphicsLayer.add(polylineGraphic);
+        reactiveUtils
+            .on(
+                () => view.popup,
+                "trigger-action",
+                (event) => {
+                    if (event.action.id === name2) {
+                        str = getSingleLine(name2);
+                    }
+                });
+        });
+    }
+
+getGenerationCountryCarrier();
+//getLines();
+
+function getGenerators(){
+    $.ajax({
+        url: "/generators_in_country",
+        type: "GET",
+        dataType: "json",
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+            } else {
+                const buses = JSON.parse(response.data[0]);
+                //console.log(buses);
+                const generators = JSON.parse(response.data[1]);
+                //console.log(generators);
+                const buses2 = JSON.parse(response.data[2]);
+                console.log(buses2);
+                const jsonObject = buses.x;
+                const jsonObjecty = buses.y;
+                let x = 0;
+                Object.keys(jsonObject).forEach(key => {
+                    if(generators[x][0] == key){
+                        //*******************************************
+                        strHtml = '<table id="t' + x + '"><tr><td>Carrier</td><td>P Nom</td></tr>';
+                        list = generators[x][1];
+                        list.forEach(el => {
+                            if(el.carrier != ""){
+                                strHtml += `<tr><td data-id="${key} ${el.carrier}"><a href="#" class="single-gen">${el.carrier}</a></td><td>${Math.round(el.p_nom)}</td></tr>`;
+                            }
+                        });
+                        strHtml += '</table>';
+                        arrayTable.push(strHtml);
+                        //*******************************************
+                        addBusToMap(jsonObject[key], jsonObjecty[key], key, '');
+                        x++;
+                        }
+                    else{
+                        // console.log(0);
+                        }
+                    });
+                //getLines();
+            }
+
+        },
+        error: function(error) {
+            console.log("An error occurred: " + error.responseJSON);
+            for (const key in error) {
+                if (error.hasOwnProperty(key)) {
+                    console.log(`${key}: ${error[key]}`);
+                    }
+                }
+            }
+    });
+}
+function getLines(){
+    $.ajax({
+        url: "/lines_in_country",
+        type: "GET",
+        dataType: "json",
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+            } else {
+                const buses = JSON.parse(response.data[0]);
+                //console.log(buses);
+                sessionStorage.setItem("lines", response.data[1]);
+                const lines = JSON.parse(response.data[1]);
+                //console.log(lines);
+                drawLines(lines, 'average');
+                //getLoads();
+                getLinks();
+            }
+        },
+        error: function(error) {
+            alert("An error occurred: " + error.responseJSON);
+        }
+    });
+}
+function getLinks(){
+    $.ajax({
+        url: "/links",
+        type: "GET",
+        dataType: "json",
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+            } else {
+                const links = JSON.parse(response.data[0]);
+                //console.log(links);
+                drawLinks(links, 'average');
+                //getLoads();
+                getGenerators();
+            }
+        },
+        error: function(error) {
+            alert("An error occurred: " + error.responseJSON);
+        }
+    });
+}
+
+function drawLines(lines, type){
+    lines.forEach(item => {
+        //console.log(item);
+        bus0 = item.bus0_coordinates;
+        bus1 = item.bus1_coordinates;
+        if(item.average_utilization > 0){
+            pointA = [bus0.x, bus0.y];
+            pointB = [bus1.x, bus1.y];
+        }
+        else{
+            pointA = [bus1.x, bus1.y];
+            pointB = [bus0.x, bus0.y];
+        }
+        //console.log(pointA);
+        //console.log(pointB);
+        coords = calculateOffsetPoint(pointA, pointB, 0.1);
+        pointB = [coords[0], coords[1]];
+        //console.log(pointB);
+
+        name2 = item.line_name;
+        //coordinates = [pointA, pointB];
+        //console.log(pointA);
+        //console.log(pointB);
+        color =  [226, 119, 40]; // Orange
+        if(type == 'peak') {
+            if(item.peak_utilization > 0.70){
+                color = 'red';
+            }
+        }
+        if(type == 'average') {
+            if ( Math.abs(item.average_utilization) > 0.50){
+                color = 'red';
+            }
+        }
+
+        l = Math.round(item.length);
+        c = Math.round(item.capacity);
+        a = (Math.round(Math.abs(item.average_utilization) * 100));
+        p = (Math.round(item.peak_utilization * 100));
+        const name = `<b>${item.bus0} - ${item.bus1}</b>`;
+        const description = `<b>Length: ${l} Km.</b><br><b>Capacity: ${c} MW.</b><br><b>Average: ${a}%</b><br><b>Peak: ${p}%</b><br>`;
+        addLineToMap(pointA, pointB, color, name, name2, description);
+    });
+}
+function drawLinks(links, type){
+    links.forEach(item => {
+        //console.log(item);
+        bus0 = item.bus0;
+        bus1 = item.bus1;
+        points = item.geometry;
+        name2 = item.line_name;
+        l = item.length;
+        //console.log(points);
+        const name = bus0 + ' ' + bus1;
+        const description = 'Carrier: ' + item.carrier + '<br>' + l + ' Km.';
+        const color =  [226, 119, 40]; // Orange
+        // prepare path
+        //console.log(points);
+        points = points.substr(11, (points.length-2));
+        points = points.replace("(", "");
+        points = points.replace(")", "");
+        //console.log(points);
+        let x = 0;
+        if(points.length > 0){
+            points = points.split(',');
+            points.forEach((point) => {
+                point = $.trim(point);
+                items = point.split(' ');
+                if( x == 0){ pointA = [parseFloat(items[0]), parseFloat(items[1])]; }
+                pointB = [parseFloat(items[0]), parseFloat(items[1])];
+                x++;
+                });
+            }
+        addLineToMap(pointA, pointB, color, name, name2, description);
+    });
+}
+
+function getSingleBus(busId){
+    console.log(busId);
+    const data = 'bus_name=' + busId;
+    $.ajax({
+        url: "/single_bus_load",
+        data: data,
+        async: false,
+        type: "POST",
+        dataType: "json",
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+            } else {
+                console.log(response.data[3]);
+                let data1 = JSON.parse(response.data[0]);
+                let data2 = JSON.parse(response.data[1]);
+                let data3 = JSON.parse(response.data[2]);
+                let data4 = JSON.parse(response.data[3]);
+                data1 = data1[busId];
+                let strHtml = '<table class="table" id="singleGeneratorTable"></tr><thead><tr><td></td><th>Load</th><th>Generation</th></tr></thead>';
+                for (const [key, value] of Object.entries(data1)) {
+                //$.each(data, function(key, values){
+                    values1 = Math.round(value);
+                    values2 = Math.round(data2[key]);
+                    strHtml += `<tr><td>${key}</td><td>${values1}</td><td>${values2}</td></tr>`
+                //});
+                }
+                strHtml += '</table>';
+                $('#singleGeneratorData').html(strHtml).hide();
+                $('#singleGeneratorWrapper').show();
+                createLineChart('singleGeneratorTable', 'singleGenerator', 'single bus generation + load');
+                let serie = [
+                    {
+                        name: 'Load',
+                        data: [data3[0].total_load]
+                    },
+                    {
+                        name: 'Generation',
+                        data: [data3[0].total_generation]
+                    },
+                ]
+                let categories = [''];
+                let target = 'balance';
+                let title = 'Balance: ' + Math.round(parseFloat(data3[0].net_balance));
+                createBarChart(serie, categories, target, title);
+                
+                let jsonArray = [];
+                for (const [key, value] of Object.entries(data4)) {
+                    if(key != '' && value > 0){
+                        let item = { name: key, data: [value] }; 
+                        jsonArray.push(item);
+                    }
+                };
+                categories = [''];
+                target = 'generation_x_carrier';
+                title = 'Generation x carrier';
+                createBarChart(jsonArray, categories, target, title);
+                
+                $('#countryCarrier').hide();
+                //getSingleBusLinks(bus_name);
+            }
+        }
+    });
+}
+function getSingleLine(lineId){
+    console.log(lineId);
+    const data = 'line_name=' + lineId;
+    $.ajax({
+        url: "/single_line_attack",
+        data: data,
+        async: false,
+        type: "POST",
+        dataType: "json",
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+            } else {
+                // let data = JSON.parse(response.data);
+                
+            }
+        }
+    });
+    }
+function getSingleBusLoad(bus_name){
+    const data = 'bus_name=' + bus_name;
+    $.ajax({
+        url: "/single_bus_load",
+        data: data,
+        type: "POST",
+        dataType: "json",
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+            } else {
+                //console.log(response.data);
+                let data = JSON.parse(response.data);
+                data = data[bus_name];
+                //console.log(data);
+                //console.log(typeof(data))
+                //const dataValues = data[g];
+                let strHtml = '<table class="table" id="singleGeneratorLoadTable"></tr>';
+                for (const [key, value] of Object.entries(data)) {
+                //$.each(data, function(key, values){
+                    values = Math.round(value);
+                    strHtml += `<tr><td>${key}</td><td>${values}</td></tr>`
+                //});
+                }
+                strHtml += '</table>';
+                $('#singleGeneratorLoad').html(strHtml);
+                createLineChart('singleGeneratorLoadTable', 'singleGeneratorLoad', 'Single Bus Load');
+                getSingleBusLinks(bus_name);
+            }
+        },
+        error: function(error) {
+            for (const key in error) {
+                if (error.hasOwnProperty(key)) {
+                    //console.log(`${key}: ${obj[key]}`);
+                    }
+                }
+        }
+    });
+}
+function getSingleBusLinks(bus_name){
+    const data = 'bus_name=' + bus_name;
+    $.ajax({
+        url: "/single_bus_links",
+        data: data,
+        type: "POST",
+        dataType: "json",
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+            } else {
+                //console.log(response.data);
+                let strHtml = '';
+                let data = JSON.parse(response.data);
+                for (const [key, value] of Object.entries(data)) {
+                //Object.keys(data).forEach(key => {
+                    strHtml += '<tr><th colspan="2">' + key + '</th></tr>';
+                    console.log(key);
+                    console.log(value);
+                    //console.log(typeof(value));
+                    for (const [key2, value2] of Object.entries(value)) {
+                        strHtml += '<tr><td>' + key2 + '</td><td>' + Math.round(value2) + '</td></tr>';
+                    }
+                }
+                $('.singleBusLinks').html(strHtml);
+                //data = data[bus_name];
+                //console.log(data);
+                //console.log(typeof(data))
+            }
+        },
+        error: function(error) {
+            for (const key in error) {
+                if (error.hasOwnProperty(key)) {
+                    //console.log(`${key}: ${obj[key]}`);
+                    }
+                }
+        }
+    });
+}
+
+function bindSingleGenerator(e){
+    $(".single-gen").on("click", function(e) {
+        e.preventDefault();
+        const g = $(this).parent().data('id');
+        //console.log(g);
+        const data = 'generator=' + g;
+        $.ajax({
+            url: "/single_generator",
+            data: data,
+            type: "POST",
+            dataType: "json",
+            success: function(response) {
+                if (response.error) {
+                    alert(response.error);
+                } else {
+                    //console.log(response.data);
+                    const data = JSON.parse(response.data);
+                    const dataValues = data[g];
+                    let strHtml = '<table class="table" id="singleGeneratorTable">';
+                    let miadata;
+                    $.each(dataValues, function(key, values){
+                        values = Math.round(values);
+                        /*
+                        miadata = new Date(key);
+                        const year = miadata.getFullYear();
+                        const month = String(miadata.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+                        const day = String(miadata.getDate()).padStart(2, '0');
+                        const hours = String(miadata.getHours()).padStart(2, '0');
+                        const minutes = String(miadata.getMinutes()).padStart(2, '0');
+                        const seconds = String(miadata.getSeconds()).padStart(2, '0');
+                        const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                        */
+                        strHtml += `<tr><td>${key}</td><td>${values}</td></tr>`
+                    });
+                    strHtml += '</table>';
+                    $('#singleGenerator').html(strHtml);
+                    createLineChart('singleGeneratorTable', 'singleGenerator');
+                }
+            },
+            error: function(error) {
+                //console.log("An error occurred: " + error.responseJSON);
+                for (const key in error) {
+                    if (error.hasOwnProperty(key)) {
+                        //console.log(`${key}: ${obj[key]}`);
+                        }
+                    }
+            }
+        });
+        /************************************************/
+    });
+}
+
+function getGenerationCountryCarrier(){
+    $.ajax({
+        url: "/generation_country_carrier",
+        type: "GET",
+        dataType: "json",
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+            } else {
+                //console.log(response.data);
+                let str = '[';
+                let dataArray  = [];
+                let data = JSON.parse(response.data);
+                for (const [key, value] of Object.entries(data)) {
+                    str += '{"name": " ' + key + ' ", "data": ['
+                    for (const [key2, value2] of Object.entries(value)) {
+                        dataArray.push(Math.round(value2/1000));
+                    }
+                    str += dataArray.toString() + ']},';
+                    dataArray = [];
+                }
+                str = str.substring(0, (str.length-1));
+                str += ']';
+                //console.log(str);
+                dataNew = JSON.parse(str);
+                createBarChartStacked(dataNew);
+            }    
+            getLines();
+        },
+        error: function(error) {
+            console.log("An error occurred: " + error.responseJSON);
+            for (const key in error) {
+                if (error.hasOwnProperty(key)) {
+                    console.log(`${key}: ${error[key]}`);
+                    }
+                }
+            }
+    });
+}
+function getFlowBetweenCountries(){
+    $.ajax({
+        url: "/flow_between_countries",
+        type: "GET",
+        dataType: "json",
+        success: function(response) {
+            if (response.error) {
+                alert(response.error);
+            } else {
+                //console.log(response.data);
+                let str = '[';
+                let dataArray  = [];
+                let data = JSON.parse(response.data);
+                let countries = data.countries;
+                let flow = data.flow_from_to;
+                console.log(countries);
+                console.log(flow);
+                /*********************************************/
+                const array =[
+                    {"DE": [51.1657, 10.4515]},
+                    {"PL": [51.9194, 19.1451]},
+                    {"DK": [56.2639, 9.5018] },
+                    {"SE": [60.1282, 18.6435]}, 
+                    {"EE": [58.5975, 25.0237]},
+                    {"LV": [56.9462, 24.1050]},
+                    {"FI": [60.1920, 24.9458]},
+                    {"NO": [64.5830, 12.7522]},
+                    {"LT": [54.6871, 25.2796]}
+                ]
+                let countryCode1, country1, coords1, countryCode2, country2, coords2;
+                $.each(countries, (i, item)=>{
+                    console.log(item[0] + ' ' + item[1]);
+                    console.log(flow[i]);
+                    if(flow[i] > 0){
+                        countryCode1 = item[0];
+                        countryCode2 = item[1];
+                        console.log(' + ');
+                        }
+                    else{
+                        countryCode1 = item[1];
+                        countryCode2 = item[0];
+                        console.log(' - ');
+                    }
+
+                    country1 = array.find(item => item[countryCode1]);
+                    coords1 = country1[countryCode1];
+
+                    country2 = array.find(item => item[countryCode2]);
+                    coords2 = country2[countryCode2];
+                    //console.log(coords1 + ' ' + coords2);
+
+                    var line = L.polyline([coords1, coords2], {color: 'blue', weight: 5}).addTo(map);
+                    line.on('mouseover', function () {
+                        // Set text on mouseover
+                        this.setText('Power → ' + Math.round(flow[i]), {
+                            repeat: false,  // Repeat text along the line
+                            offset: 10,    // Offset text position
+                            orientation: 'auto',
+                            attributes: {  // Customize text appearance
+                                fill: 'red',
+                                'font-weight': 'bold',
+                                'font-size': '12px',
+                                stroke: 'white',
+                                'stroke-width': '3px',
+                                'paint-order': 'stroke'
+                            }
+                        });
+                    });
+
+                    line.on('mouseout', function () {
+                        // Remove text on mouseout
+                        this.setText(null);
+                    });
+
+                    var arrowHead = L.polylineDecorator(line, {
+                        patterns: [
+                            {
+                                offset: '50%',
+                                repeat: 0,
+                                symbol: L.Symbol.arrowHead({
+                                    pixelSize: 15,
+                                    polygon: true,
+                                    pathOptions: {color: 'blue', stroke: true}
+                                })
+                            }
+                        ]
+                    }).addTo(map);
+                });
+            }    
+            getGenerationCountryCarrier();
+        },
+        error: function(error) {
+            console.log("An error occurred: " + error.responseJSON);
+            for (const key in error) {
+                if (error.hasOwnProperty(key)) {
+                    //console.log(`${key}: ${error[key]}`);
+                    }
+                }
+            }
+    });
+}
+
+function createLineChart(table, target, title=''){
+    Highcharts.chart(target, {
+        data: {
+            table: table,
+        },
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: title
+        },
+        plotOptions: {
+            series: {
+                dataLabels: {
+                    enabled: true 
+                    }
+                }
+            }
+        });
+    }
+function createBarChartStacked(data){
+    Highcharts.chart('countryCarrier', {
+    chart: {type: 'column', height: 800},
+    title: {text: ''},
+    xAxis: {categories: ['', 'DE', 'DK', 'EE', 'FI', 'LT', 'LV', 'NO', 'PL', 'SE']},
+    yAxis: {
+        min: 0,
+        title: {text: ''},
+        stackLabels: {enabled: true}
+    },
+    legend: {
+        align: 'right',
+        x: 70,
+        verticalAlign: 'top',
+        y: 70,
+        floating: true,
+        backgroundColor: Highcharts.defaultOptions.legend.backgroundColor || 'white',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        shadow: false
+    },
+    tooltip: {
+        headerFormat: '<b>{category}</b><br/>',
+        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+    },
+    plotOptions: {
+        column: {
+            stacking: 'normal',
+            dataLabels: { enabled: true }
+        }
+    },
+    series: data
+    });
+}
+function createBarChart(data, categories, target, title){
+    Highcharts.chart(target, {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: title
+    },
+    subtitle: {
+        text: ''
+    },
+    xAxis: {
+        categories: categories,
+        crosshair: true,
+        accessibility: {
+            description: 'Countries'
+        }
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: ''
+        }
+    },
+    tooltip: {
+        valueSuffix: ''
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: data
+});
+}
+
+</script>
+</body>
+</html>
